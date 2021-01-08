@@ -3,7 +3,7 @@ COPY php.ini /usr/local/etc/php/
 
 RUN apt-get update \
   && apt-get install -y unzip libpq-dev vim zlib1g-dev libzip-dev mariadb-client libonig-dev \
-  && docker-php-ext-install zip
+  && docker-php-ext-install zip pdo_pgsql
 
 #Composer install
 COPY --from=composer /usr/bin/composer /usr/bin/composer
@@ -15,4 +15,6 @@ RUN composer global require "laravel/installer"
 WORKDIR /var/www
 RUN chown -R www-data:www-data /var/www
 
-
+RUN curl -SL https://deb.nodesource.com/setup_14.x | bash
+RUN apt-get install -y nodejs && \
+  npm install -g npm@latest
