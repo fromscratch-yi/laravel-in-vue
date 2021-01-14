@@ -15,6 +15,10 @@ docker-compose exec php php artisan migrate:refresh && \
 docker-compose exec node npm install
 ```
 
+## 起動コマンド
+```sh
+docker-compose up -d && docker-compose exec php npm run watch
+```
 
 ---
 
