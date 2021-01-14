@@ -1904,6 +1904,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1938,8 +1946,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var self = this;
 
       if (this.newTodo) {
-        axios.create('/api/todos').then(function (response) {
+        axios.post('/api/todos', {
+          todo: this.newTodo
+        }).then(function (response) {
           _this2.todos = response.data;
+          _this2.newTodo = '';
+
+          _this2.openCreateForm();
         })["catch"](function (error) {
           console.log(error);
         });
@@ -1947,20 +1960,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return false;
     },
-    editTodo: function editTodo() {
-      var _this3 = this;
-
-      var self = this;
-      var todoParent = e.currentTarget.parentNode;
-      var todoId = todoParent.firstElementChild.value;
-      axios.put('/api/todos/' + todoId).then(function (response) {
-        _this3.todos = response.data;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
     deleteTodo: function deleteTodo(e) {
-      var _this4 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var self, todoParent, todoId;
@@ -1968,7 +1969,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                self = _this4;
+                self = _this3;
                 todoParent = e.currentTarget.parentNode;
                 todoId = todoParent.firstElementChild.value;
                 _context.next = 5;
@@ -38310,7 +38311,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "create_btn",
+          staticClass: "btn btn-success",
           attrs: { type: "button" },
           on: { click: _vm.openCreateForm }
         },
@@ -38328,6 +38329,7 @@ var render = function() {
               expression: "formOpen"
             }
           ],
+          staticClass: "table mt-3",
           attrs: { id: "create_form" }
         },
         [
@@ -38335,7 +38337,7 @@ var render = function() {
             _c("tr", [
               _c("th", [_vm._v("TODO")]),
               _vm._v(" "),
-              _c("td", [
+              _c("td", { staticClass: "input-group" }, [
                 _c("input", {
                   directives: [
                     {
@@ -38345,6 +38347,7 @@ var render = function() {
                       expression: "newTodo"
                     }
                   ],
+                  staticClass: "form-control",
                   attrs: {
                     type: "text",
                     placeholder: "Write do what you should do."
@@ -38358,21 +38361,19 @@ var render = function() {
                       _vm.newTodo = $event.target.value
                     }
                   }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", { attrs: { colspan: "2" } }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "create_btn",
-                    attrs: { type: "button" },
-                    on: { click: _vm.createTodo }
-                  },
-                  [_vm._v("Create TODO")]
-                )
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "input-group-btn" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: { click: _vm.createTodo }
+                    },
+                    [_vm._v("Create TODO")]
+                  )
+                ])
               ])
             ])
           ])
@@ -38380,66 +38381,66 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c("table", [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.todos, function(todo) {
-          return _c("tr", { key: todo.id }, [
-            _c("td", { staticClass: "date_wrap" }, [
-              _vm._v(_vm._s(todo.created_at))
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "todo_wrap" }, [_vm._v(_vm._s(todo.todo))]),
-            _vm._v(" "),
-            _c("td", { staticClass: "action_wrap" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: todo.id,
-                    expression: "todo.id"
-                  }
-                ],
-                attrs: { type: "hidden" },
-                domProps: { value: todo.id },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(todo, "id", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "edit_btn",
-                  attrs: { type: "button" },
-                  on: { click: _vm.editTodo }
-                },
-                [_vm._v("Edit")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "delete_btn",
-                  attrs: { type: "button" },
-                  on: { click: _vm.deleteTodo }
-                },
-                [_vm._v("Delete")]
-              )
-            ])
-          ])
-        }),
-        0
-      )
-    ])
+    _vm.todos.length > 0
+      ? _c("table", { staticClass: "table mt-5" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.todos, function(todo) {
+              return _c("tr", { key: todo.id }, [
+                _c("td", { staticClass: "date_wrap" }, [
+                  _c("div", { staticClass: "text-center" }, [
+                    _vm._v(_vm._s(todo.created_at))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "todo_wrap" }, [
+                  _c("div", { staticClass: "text-center" }, [
+                    _vm._v(_vm._s(todo.todo))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "action_wrap" }, [
+                  _c("div", { staticClass: "text-center" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: todo.id,
+                          expression: "todo.id"
+                        }
+                      ],
+                      attrs: { type: "hidden" },
+                      domProps: { value: todo.id },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(todo, "id", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button" },
+                        on: { click: _vm.deleteTodo }
+                      },
+                      [_vm._v("Delete")]
+                    )
+                  ])
+                ])
+              ])
+            }),
+            0
+          )
+        ])
+      : _c("p", { staticClass: "mt-5" }, [_vm._v("登録データがありません。")])
   ])
 }
 var staticRenderFns = [
@@ -38449,11 +38450,17 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Date")]),
+        _c("th", [
+          _c("p", { staticClass: "mb-0 text-center" }, [_vm._v("Date")])
+        ]),
         _vm._v(" "),
-        _c("th", [_vm._v("TODO")]),
+        _c("th", [
+          _c("p", { staticClass: "mb-0 text-center" }, [_vm._v("TODO")])
+        ]),
         _vm._v(" "),
-        _c("th", [_vm._v("Action")])
+        _c("th", [
+          _c("p", { staticClass: "mb-0 text-center" }, [_vm._v("Action")])
+        ])
       ])
     ])
   }

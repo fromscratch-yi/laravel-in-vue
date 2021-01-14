@@ -2,39 +2,47 @@
     <div>
         <h1>Home Page</h1>
         <div class="create_wrap">
-            <button type="button" class="create_btn" v-on:click="openCreateForm">{{ createBtnLabel }}</button>
-            <table id="create_form" v-show="formOpen">
+            <button type="button" class="btn btn-success" v-on:click="openCreateForm">{{ createBtnLabel }}</button>
+            <table class="table mt-3" id="create_form" v-show="formOpen">
                 <tbody>
                     <tr>
                         <th>TODO</th>
-                        <td><input type="text" v-model="newTodo" placeholder="Write do what you should do."></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="button" class="create_btn" v-on:click="createTodo">Create TODO</button></td>
+                        <td class="input-group">
+                            <input class="form-control" type="text" v-model="newTodo" placeholder="Write do what you should do.">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" v-on:click="createTodo">Create TODO</button>
+                            </span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <table>
+        <table class="table mt-5" v-if="todos.length > 0">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>TODO</th>
-                    <th>Action</th>
+                    <th><p class="mb-0 text-center">Date</p></th>
+                    <th><p class="mb-0 text-center">TODO</p></th>
+                    <th><p class="mb-0 text-center">Action</p></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(todo) in todos" :key="todo.id">
-                    <td class="date_wrap">{{ todo.created_at }}</td>
-                    <td class="todo_wrap">{{ todo.todo }}</td>
+                    <td class="date_wrap">
+                        <div class="text-center">{{ todo.created_at }}</div>
+                    </td>
+                    <td class="todo_wrap">
+                        <div class="text-center">{{ todo.todo }}</div>
+                    </td>
                     <td class="action_wrap">
-                        <input type="hidden" v-model="todo.id">
-                        <button type="button" class="edit_btn" v-on:click="editTodo">Edit</button>
-                        <button type="button" class="delete_btn" v-on:click="deleteTodo">Delete</button>
+                        <div class="text-center">
+                            <input type="hidden" v-model="todo.id">
+                            <button type="button" class="btn btn-danger" v-on:click="deleteTodo">Delete</button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <p class="mt-5" v-else>登録データがありません。</p>
     </div>
 </template>
 
@@ -72,28 +80,19 @@ export default {
           let self = this;
           if (this.newTodo) {
               axios
-                .create('/api/todos')
+                .post('/api/todos', {
+                    todo: this.newTodo
+                })
                 .then((response) => {
                     this.todos = response.data;
+                    this.newTodo = '';
+                    this.openCreateForm();
                 })
                 .catch((error) => {
                     console.log(error);
                 })
           }
           return false;
-      },
-      editTodo () {
-          let self = this;
-          let todoParent = e.currentTarget.parentNode;
-          let todoId = todoParent.firstElementChild.value;
-          axios
-            .put('/api/todos/' + todoId)
-            .then((response) => {
-                this.todos = response.data;
-            })
-            .catch((error) => {
-                console.log(error);
-            })
       },
       async deleteTodo (e) {
           let self = this;

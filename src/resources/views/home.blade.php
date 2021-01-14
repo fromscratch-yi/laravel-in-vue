@@ -22,14 +22,14 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <router-link to="/">{{ config('app.name', 'Laravel') }}</router-link>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
+                <ul class="navbar-nav ml-auto d-flex align-items-center">
+                    <li class="nav-item mr-3">
                         ようこそ {{ Auth::user()->name }} さん
                     </li>
                     <li>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button class="button" type="submit">{{ __('Logout') }}</button>
+                            <button class="btn btn-info" type="submit">{{ __('Logout') }}</button>
                         </form>
                     </li>
                 </ul>
