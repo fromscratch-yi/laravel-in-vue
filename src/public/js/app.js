@@ -1912,6 +1912,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1959,6 +1980,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return false;
+    },
+    showDialog: function showDialog() {
+      var dialogModal = document.getElementById('dialog');
+      dialogModal.classList.add('show');
+      dialogModal.style.display = "block";
+    },
+    closeModal: function closeModal() {
+      var dialogModal = document.getElementById('dialog');
+      dialogModal.classList.remove('show');
+      dialogModal.style.display = "none";
+    },
+    choiceInputData: function choiceInputData(e) {
+      this.newTodo = e.currentTarget.textContent;
+      this.closeModal();
     },
     deleteTodo: function deleteTodo(e) {
       var _this3 = this;
@@ -38367,13 +38402,131 @@ var render = function() {
                   _c(
                     "button",
                     {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button" },
+                      on: { click: _vm.showDialog }
+                    },
+                    [_vm._v("Show Dialog")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "input-group-btn" }, [
+                  _c(
+                    "button",
+                    {
                       staticClass: "btn btn-primary",
                       attrs: { type: "button" },
                       on: { click: _vm.createTodo }
                     },
                     [_vm._v("Create TODO")]
                   )
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "modal fade",
+                    attrs: {
+                      id: "dialog",
+                      tabindex: "-1",
+                      role: "dialog",
+                      "aria-labelledby": "dialogTitle",
+                      "aria-hidden": "true"
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal-dialog modal-dialog-centered",
+                        attrs: { role: "document" }
+                      },
+                      [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _c("div", { staticClass: "modal-header" }, [
+                            _c(
+                              "h5",
+                              {
+                                staticClass: "modal-title",
+                                attrs: { id: "dialogTitle" }
+                              },
+                              [_vm._v("Select from List")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "close",
+                                attrs: {
+                                  type: "button",
+                                  "data-dismiss": "modal",
+                                  "aria-label": "Close"
+                                },
+                                on: { click: _vm.closeModal }
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  { attrs: { "aria-hidden": "true" } },
+                                  [_vm._v("×")]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "modal-body d-flex flex-column bd-highlight mb-3"
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-light mb-2",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.choiceInputData }
+                                },
+                                [_vm._v("テストA")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-light mb-2",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.choiceInputData }
+                                },
+                                [_vm._v("テストB")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-light mb-2",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.choiceInputData }
+                                },
+                                [_vm._v("テストC")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-light mb-2",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.choiceInputData }
+                                },
+                                [_vm._v("テストD")]
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ]
+                )
               ])
             ])
           ])

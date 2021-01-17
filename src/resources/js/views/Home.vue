@@ -10,8 +10,29 @@
                         <td class="input-group">
                             <input class="form-control" type="text" v-model="newTodo" placeholder="Write do what you should do.">
                             <span class="input-group-btn">
+                                <button type="button" class="btn btn-secondary" v-on:click="showDialog">Show Dialog</button>
+                            </span>
+                            <span class="input-group-btn">
                                 <button type="button" class="btn btn-primary" v-on:click="createTodo">Create TODO</button>
                             </span>
+                            <div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="dialogTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="dialogTitle">Select from List</h5>
+                                            <button type="button" class="close" v-on:click="closeModal" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body d-flex flex-column bd-highlight mb-3">
+                                            <button type="button" class="btn btn-light mb-2" v-on:click="choiceInputData">テストA</button>
+                                            <button type="button" class="btn btn-light mb-2" v-on:click="choiceInputData">テストB</button>
+                                            <button type="button" class="btn btn-light mb-2" v-on:click="choiceInputData">テストC</button>
+                                            <button type="button" class="btn btn-light mb-2" v-on:click="choiceInputData">テストD</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -93,6 +114,20 @@ export default {
                 })
           }
           return false;
+      },
+      showDialog () {
+          let dialogModal = document.getElementById('dialog');
+          dialogModal.classList.add('show');
+          dialogModal.style.display ="block";
+      },
+      closeModal () {
+          let dialogModal = document.getElementById('dialog');
+          dialogModal.classList.remove('show');
+          dialogModal.style.display ="none";
+      },
+      choiceInputData (e) {
+          this.newTodo = e.currentTarget.textContent;
+          this.closeModal();
       },
       async deleteTodo (e) {
           let self = this;
